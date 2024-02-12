@@ -11,38 +11,26 @@
 </head>
 
 <body onload="init()">
-
+<div class="main-content"> 
+<!-- Main-Content sollte auf 1440 px begrenzen, tut aber nicht  -->
     <header>
         <img class="header-pic" src="./img/pokeball.png">
         <h1 class="header-h1">Poketina</h1>
-        <div>
-        <input placeholder="Suchfunktion noch im Aufbau">
-<button>Los!</button>
-    </div>
+        <div class="width420">
+            <input placeholder="Suchfunktion noch im Aufbau">
+            <button>Los!</button>
+        </div>
     </header>
-        <div class="pokedex-card-detail-wrapper d-none">
-        <div class="pokedex" id="pokedex">
-            <div>
-                <h1 id="pokemonName">Name</h1>
-            </div>
-            <div>
-                <h2 id="pokemonID">ID</h2>
-            </div>
-            <div>
-                <img class="pokemon-pic" id="pokemonPic">
-            </div>
-        </div>
-        <div class="info-container">
-        </div>
+    <div class="pokedex-collection-container" id="pokedexCollectionContainer">
     </div>
-<div class="pokedex-collection-container" id="pokedexCollectionContainer">
+    <div id="backgroundForDetailard" class="d-none" >
 
+    </div>
+    <footer>
+        <button class="button-load-more-pokemon" onclick="loadMorePokemons()">Weitere Pokemons anzeigen</button>
+        <a href="https://www.flaticon.com/de/kostenlose-icons/pokemon" title="pokémon Icons">Icons erstellt von
+            Freepik - Flaticon</a>
+    </footer>
 </div>
-    
-
-<footer>
-    <button class="button-load-more-pokemon" onclick="loadMorePokemons()">Weitere Pokemons anzeigen</button>
-<a href="https://www.flaticon.com/de/kostenlose-icons/pokemon" title="pokémon Icons">Pokémon Icons erstellt von Freepik - Flaticon</a>
-</footer>
 </body>
 </html>
