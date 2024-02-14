@@ -1,17 +1,20 @@
 body {
-    margin: 0;
     font-family: 'Open Sans', sans-serif;
     width: 100vw;
-    max-width: 1440px;
-}
+   }
 
 .main-content {
     width: 100%;
-    max-width: 1440px; /* Maximale Breite des Inhalts */
-    margin: 0 auto; /* Zentrierung des Inhalts */
-    padding-top: 100px; /* Platz für den Header */
-    padding-bottom: 70px; /* Platz für den Footer */
+    max-width: 1440px;
+    /* Maximale Breite des Inhalts */
+    margin: 0 auto;
+    /* Zentrierung des Inhalts */
+    padding-top: 100px;
+    /* Platz für den Header */
+    padding-bottom: 70px;
+    /* Platz für den Footer */
 }
+
 .type {
     width: 70px;
     border: 1px solid white;
@@ -23,7 +26,7 @@ body {
 }
 
 header {
-    height: 100px; 
+    height: 100px;
     width: 100%;
     position: fixed;
     top: 0;
@@ -31,36 +34,27 @@ header {
     justify-content: space-evenly;
     align-items: center;
     box-shadow: -2px 0 6px 0px rgba(0, 0, 0, 0.2);
-    border: 1px solid red;
 }
 
 .header-pic {
-        justify-content: center;
+    justify-content: center;
     height: 50px;
-    
 }
-
 
 footer {
     height: 70px;
     width: 100vw;
-  
     position: fixed;
     bottom: 0;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   box-shadow: 0px 0px 6px 0px rgb(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 0px 6px 0px rgb(0, 0, 0, 0.2);
 }
 
 a {
     text-decoration: none;
     color: black;
-}
-.button-load-more-pokemon{
-    margin-bottom: 10px;
-    margin-top: 10px;
-
 }
 
 .pokedex {
@@ -75,15 +69,16 @@ a {
     justify-content: center;
     align-items: center;
 }
+
 .detail-header-icon {
     display: flex;
-    justify-content:space-evenly;
-    width: 100%;                  /* eine width geben sonst funktioniert justify-content nicht */
+    justify-content: space-evenly;
+    width: 100%;
     height: 5%;
     padding-left: 5px;
     margin-right: 5px;
-    border: 1px solid red;
-
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 .pokedex-detail-card {
@@ -117,7 +112,6 @@ a {
     border: 1px solid grey;
     color: grey;
     border-radius: 18px;
-  
     margin: 12px;
     cursor: pointer;
     transition: transform .1s;
@@ -155,29 +149,26 @@ a {
     width: 200px;
 }
 
-.pokedex-collection-container{
-position: fixed;
-top: 100px;
-    overflow-y: auto; /* Scrollen aktivieren, wenn der Inhalt zu groß wird */
-    max-height: calc(100vh - 170px); /* Höhe des Bildschirms abzüglich Header- und Footer-Höhe */
+.pokedex-collection-container {
+    top: 100px;
+    overflow-y: auto;
+    max-height: calc(100vh - 170px);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    border: 1px solid green;
 }
 
 .background-for-detail-card {
-    background-color: rgba(0, 0, 0, 0.9);      /* grauer overlay mit Durchsichtigkeitsgrad 90% bzw. 0.9 */
-    z-index: 999;                                /* damit die Div Ã¼ber allem liegt*/
-    position: fixed;                              /*damit es immer fest Ã¼ber allem liegt*/
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 999;
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
     display: flex;
-    justify-content: center;                    /*damit das popup mittig positioniert wird*/
+    justify-content: center;
     align-items: center;
-  
 }
 
 .detail-pokemon-image {
@@ -186,16 +177,14 @@ top: 100px;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-   }
-
-   .detail-image {
-width: 200px;
-
-   }
-
-@media(max-width: 420px){
-    .width420 {
-      display: none;
-    }
 }
 
+.detail-image {
+    width: 200px;
+}
+
+@media(max-width: 420px) {
+    .width420 {
+        display: none;
+    }
+}

@@ -2,7 +2,7 @@ let currentPokemon;
 let amountPokemon = 20;
 let pokemonCollection = [];
 let pokemonsLoaded = 0;
-const colors = {
+let colors = {
   normal: "rgb(164,172,175)",
   fire: "rgb(253,125,36)",
   water: "rgb(69,146,196)",
@@ -67,82 +67,67 @@ function renderPokemonCards() {
 }
 
 function generateHtmlPokemonCards(i, pokemon, color) {
-  return `
+  return /*html*/`
   <div class="pokedex-card"  onclick="openPokemonDetail(${i})">   
       <h1 class="h1-pokemon-name">
           ${pokemon["name"]}
       </h1>
           <img src = "${pokemon["sprites"]["other"]["home"]["front_shiny"]}">       
-      <div class="type" style="background-color: ${color};"> ${pokemon["types"][0].type.name}</div>
+      <div class="type rounded-pill" style="background-color: ${color};"> ${pokemon["types"][0].type.name}</div>
+   
   </div>
   `;
 }
 
 function getPokemonColor(pokemon) {
-  // wir erstellen uns eine Hilfsfunktion, damit die Variablen sich nicht wiederholen
-  let type = pokemon["types"][0].type.name; // wir holen uns den ersten Typ Namen des Pokemons im Feld 0 des Arrays types
-  let color = colors[type]; // aus dem Json colors holen wir uns den Farbcode welcher zum Typ gehÃ¶rt und gebe den Wert zurÃ¼ck
+  let type = pokemon["types"][0].type.name; 
+  let color = colors[type]; 
   return color;
 }
 
 function openPokemonDetail(i) {
   document.getElementById("backgroundForDetailard").classList.remove("d-none");
-  document
-    .getElementById("backgroundForDetailard")
-    .classList.add("background-for-detail-card");
-  let containerForDetailCard = document.getElementById(
-    "backgroundForDetailard"
-  );
+  let containerForDetailCard = document.getElementById("backgroundForDetailard");
   containerForDetailCard.innerHTML = "";
   let pokemon = pokemonCollection[i];
   let firstType = pokemon.types[0].type.name;
   let color = colors[firstType];
-  containerForDetailCard.innerHTML = generateHtmlForDetailCard(
-    i,
-    pokemon,
-    color
-  );
-  executeFunctions(pokemon, i);
-}
+  containerForDetailCard.innerHTML = generateHtmlForDetailCard(i,pokemon,color);
+  }
 
 function generateHtmlForDetailCard(i, pokemon, color) {
-  return /*html*/`
+  return /*html*/ `
       <div class="pokedex-card-detail-wrapper" style="background-color: ${color};">
         <div class="detail-header-icon">                
                 <img src="./img/left.png" id="arrow-left-icon" onclick="showPreviousPokemon(${i})">    
                 <img src="./img/right.png" id="arrow-right-icon" onclick="showNextPokemon(${i})">             
-                <img src="./img/close.png" onclick="hidePokemonDetail()" >                
+                <img src="./img/close.png" onclick="hidePokemonDetail()">                
         </div>
-
         <div class="detail-pokemon-image">
             <h1 class="h1-pokemon-name">
                 ${pokemon["name"]}
             </h1>
             <p># ${pokemon["id"]}</p>
-            <img class="detail-image" src = "${pokemon["sprites"]["other"]["official-artwork"]["front_shiny"]}">                  
-        </div>        
-    </div>   
+            <img class="detail-image" src = "${pokemon["sprites"]["other"]["official-artwork"]["front_shiny"]}">    
+            <div id="myChart">About</div>
+            <div>Weight: ${pokemon["weight"]}</div>
+            <div>Height: ${pokemon["height"]}</div>
+        </div>            
+      </div>        
     `;
 }
+
 function hidePokemonDetail() {
-  document.getElementById("background-for-detail-card").classList.add("d-none");
-  document
-    .getElementById("background-for-detail-card")
-    .classList.remove("background-for-detail-card");
+  document.getElementById("backgroundForDetailard").classList.add("d-none");
 }
 
 function showNextPokemon(i) {
-  i++;
-  openPokemonDetail(i);
-  if (i == pokemonCollection.length - 1) {
-    document.getElementById("arrow-right-icon").classList.add("d-none");
-  }
+  let nextIndex = (i + 1 + pokemonCollection.length) % pokemonCollection.length;
+  openPokemonDetail(nextIndex);
 }
 
 function showPreviousPokemon(i) {
-  i--;
-  openPokemonDetail(i);
-  if (i == 0) {
-    document.getElementById("arrow-left-icon").classList.add("d-none");
-  }
+
+  let previousIndex = (i - 1 + pokemonCollection.length) % pokemonCollection.length;
+  openPokemonDetail(previousIndex);
 }
