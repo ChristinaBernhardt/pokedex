@@ -17,8 +17,10 @@
 
 <body onload="init()">
     <header>
-        <img class="header-pic" src="./img/pokeball.png">
-        <h1 class="header-h1">Poketina</h1>
+        <div><img class="header-pic" src="./img/pokeball.png"></div>
+        <div><h1 class="header-h1">Poketina</h1></div>
+        <div><input class="input" type="text" id="search_pokemon" placeholder="Suche" onkeyup="showPokemon()">
+        <!-- <button onclick="showPokemon()">Los!</button></div> -->
     </header>
     <div class="main-content">
         <section class="pokedex-collection-container" id="pokedexCollectionContainer"></section>

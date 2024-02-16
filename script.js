@@ -48,22 +48,14 @@ async function loadMorePokemons() {
 }
 
 function renderPokemonCards() {
-  let pokedexCollectionContainer = document.getElementById(
-    "pokedexCollectionContainer"
-  );
+  let pokedexCollectionContainer = document.getElementById("pokedexCollectionContainer");
   pokedexCollectionContainer.innerHTML = "";
   for (let i = 0; i < pokemonCollection.length; i++) {
     let pokemon = pokemonCollection[i];
     let color = getPokemonColor(pokemon);
-    pokedexCollectionContainer.innerHTML += generateHtmlPokemonCards(
-      i,
-      pokemon,
-      color
-    );
+    pokedexCollectionContainer.innerHTML += generateHtmlPokemonCards(i,pokemon,color);
   }
-  pokemonsLoaded = document.getElementById(
-    "pokedexCollectionContainer"
-  ).childElementCount;
+  pokemonsLoaded = document.getElementById("pokedexCollectionContainer").childElementCount;
 }
 
 function generateHtmlPokemonCards(i, pokemon, color) {
@@ -80,7 +72,7 @@ function generateHtmlPokemonCards(i, pokemon, color) {
 }
 
 function getPokemonColor(pokemon) {
-  let type = pokemon["types"][0].type.name; 
+  let type = pokemon['types'][0].type.name; 
   let color = colors[type]; 
   return color;
 }
@@ -127,7 +119,22 @@ function showNextPokemon(i) {
 }
 
 function showPreviousPokemon(i) {
-
   let previousIndex = (i - 1 + pokemonCollection.length) % pokemonCollection.length;
   openPokemonDetail(previousIndex);
 }
+
+function showPokemon(){
+  let search_pokemon = document.getElementById('search_pokemon').value.toLowerCase();
+  console.log(search_pokemon);
+ let pokedexCollectionContainerSearch = document.getElementById('pokedexCollectionContainer');
+pokedexCollectionContainerSearch.innerHTML = '';
+for (let i = 0; i < pokemonCollection.length; i++) {
+  let pokemon = pokemonCollection[i].name; // Hier habe ich .name angehängt, damit es kein ganzes Objekt ist.
+  let pokemonName = pokemon.toLowerCase();
+  if(pokemonName.toLowerCase().includes(search_pokemon)){
+    // let color = getPokemonColor(pokemon);
+    getPokemonColor(pokemon);
+
+  
+  pokedexCollectionContainerSearch.innerHTML += generateHtmlPokemonCards(i,pokemon,color);
+}}}
