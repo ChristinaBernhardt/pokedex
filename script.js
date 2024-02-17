@@ -123,18 +123,23 @@ function showPreviousPokemon(i) {
   openPokemonDetail(previousIndex);
 }
 
+function newSearch(){
+  document.getElementById('search_pokemon').value = '';
+  renderPokemonCards();
+}
+
 function showPokemon(){
   let search_pokemon = document.getElementById('search_pokemon').value.toLowerCase();
   console.log(search_pokemon);
  let pokedexCollectionContainerSearch = document.getElementById('pokedexCollectionContainer');
 pokedexCollectionContainerSearch.innerHTML = '';
 for (let i = 0; i < pokemonCollection.length; i++) {
+  let onePokemon = pokemonCollection[i];
   let pokemon = pokemonCollection[i].name; // Hier habe ich .name angehängt, damit es kein ganzes Objekt ist.
   let pokemonName = pokemon.toLowerCase();
   if(pokemonName.toLowerCase().includes(search_pokemon)){
-    // let color = getPokemonColor(pokemon);
-    getPokemonColor(pokemon);
+    let color = getPokemonColor(onePokemon);
+    getPokemonColor(onePokemon);
 
-  
-  pokedexCollectionContainerSearch.innerHTML += generateHtmlPokemonCards(i,pokemon,color);
+  pokedexCollectionContainerSearch.innerHTML += generateHtmlPokemonCards(i,onePokemon,color);
 }}}

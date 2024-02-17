@@ -183,6 +183,11 @@ a {
     width: 200px;
 }
 
+.searching-section {
+display: flex;
+
+}
+
 @media(max-width: 420px) {
     .width420 {
         display: none;
