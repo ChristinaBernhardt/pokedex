@@ -38,6 +38,9 @@ async function loadPokemons() {
 }
 
 async function loadMorePokemons() {
+
+  // document.getElementById("loadingCircle").style.display = "block";
+
   for (let i = pokemonsLoaded; i < pokemonsLoaded + 5; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
@@ -45,6 +48,7 @@ async function loadMorePokemons() {
     pokemonCollection.push(currentPokemon);
   }
   renderPokemonCards();
+  // document.getElementById("loadingCircle").style.display = "none";
 }
 
 function renderPokemonCards() {
@@ -58,18 +62,39 @@ function renderPokemonCards() {
   pokemonsLoaded = document.getElementById("pokedexCollectionContainer").childElementCount;
 }
 
+// function generateHtmlPokemonCards(i, pokemon, color) {
+//   if (pokemon.types.length > 0) {
+//     typesHtml = pokemon.types.map(type => `<div class="type rounded-pill" style="background-color: ${color};">${type.type.name}</div>`).join('');
+// }
+//   return /*html*/`
+//   <div class="pokedex-card"  onclick="openPokemonDetail(${i})">   
+//       <h1 class="h1-pokemon-name">
+//           ${pokemon["name"]}
+//       </h1>
+//           <img src = "${pokemon["sprites"]["other"]["home"]["front_shiny"]}">       
+//       <div class="type rounded-pill" style="background-color: ${color};"> ${pokemon["types"][0].type.name}</div>
+    
+//   </div>
+//   `;
+// }
+
 function generateHtmlPokemonCards(i, pokemon, color) {
+  // let typesHtml = '';
+  if (pokemon.types.length > 0) {
+      typesHtml = pokemon.types.map(type => `<div class="type rounded-pill" style="background-color: ${color};">${type.type.name}</div>`).join('');
+  }
+
   return /*html*/`
   <div class="pokedex-card"  onclick="openPokemonDetail(${i})">   
       <h1 class="h1-pokemon-name">
-          ${pokemon["name"]}
+          ${pokemon.name}
       </h1>
-          <img src = "${pokemon["sprites"]["other"]["home"]["front_shiny"]}">       
-      <div class="type rounded-pill" style="background-color: ${color};"> ${pokemon["types"][0].type.name}</div>
-   
+      <img src="${pokemon.sprites.other.home.front_shiny}">       
+      <div class="types">${typesHtml}</div>    
   </div>
   `;
 }
+
 
 function getPokemonColor(pokemon) {
   let type = pokemon['types'][0].type.name; 

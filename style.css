@@ -188,6 +188,21 @@ display: flex;
 
 }
 
+.types {
+display: flex;
+
+}
+
+/* #loadingCircle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#loadingCircle img {
+    width: 50px; /* Anpassen der Größe des Ladekreises */
+    /* height: 50px;
+} */
+
 @media(max-width: 420px) {
     .width420 {
         display: none;
