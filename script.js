@@ -38,9 +38,9 @@ async function loadPokemons() {
 }
 
 async function loadMorePokemons() {
-
+  document.getElementById("pokedexCollectionContainer").style.display = "none";
   document.getElementById("loadingCircle").style.display = "block";
-
+  
   for (let i = pokemonsLoaded; i < pokemonsLoaded + 20; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
@@ -49,6 +49,7 @@ async function loadMorePokemons() {
   }
   renderPokemonCards();
   document.getElementById("loadingCircle").style.display = "none";
+  document.getElementById("pokedexCollectionContainer").style.display = "flex";
 }
 
 function renderPokemonCards() {
