@@ -22,7 +22,10 @@
         <div class="searching-section"><input class="input form-control" type="text" id="search_pokemon" placeholder="Suche" onkeyup="showPokemon()">
         <button class="btn btn-danger" onclick="newSearch()">X</button></div>
     </header>
-    <div class="main-content">
+        <div class="main-content">
+            <div id="loadingCircle" style="display: none;">
+                <img src="./img/loading-bar.png" alt="Loading..." />
+            </div>
         <section class="pokedex-collection-container" id="pokedexCollectionContainer"></section>
         <section class="background-for-detail-card d-none" id="backgroundForDetailard"></section>
     </div>

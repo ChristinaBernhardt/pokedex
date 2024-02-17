@@ -39,16 +39,16 @@ async function loadPokemons() {
 
 async function loadMorePokemons() {
 
-  // document.getElementById("loadingCircle").style.display = "block";
+  document.getElementById("loadingCircle").style.display = "block";
 
-  for (let i = pokemonsLoaded; i < pokemonsLoaded + 5; i++) {
+  for (let i = pokemonsLoaded; i < pokemonsLoaded + 20; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
     currentPokemon = await response.json();
     pokemonCollection.push(currentPokemon);
   }
   renderPokemonCards();
-  // document.getElementById("loadingCircle").style.display = "none";
+  document.getElementById("loadingCircle").style.display = "none";
 }
 
 function renderPokemonCards() {

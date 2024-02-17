@@ -193,15 +193,15 @@ display: flex;
 
 }
 
-/* #loadingCircle {
+#loadingCircle {
     text-align: center;
     margin-top: 20px;
 }
 
 #loadingCircle img {
-    width: 50px; /* Anpassen der Größe des Ladekreises */
-    /* height: 50px;
-} */
+    width: 250px; /* Anpassen der Größe des Ladekreises */
+    height: 250px;
+}
 
 @media(max-width: 420px) {
     .width420 {
