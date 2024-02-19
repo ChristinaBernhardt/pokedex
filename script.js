@@ -1,6 +1,9 @@
 let currentPokemon;
 let amountPokemon = 20;
 let pokemonCollection = [];
+let baseExperience = [];
+let height = [];
+let weight = [];
 let pokemonsLoaded = 0;
 let colors = {
   normal: "rgb(164,172,175)",
@@ -33,14 +36,30 @@ async function loadPokemons() {
     let response = await fetch(url);
     currentPokemon = await response.json();
     pokemonCollection.push(currentPokemon);
+    baseExperience.push(currentPokemon.base_experience);
+    height.push(currentPokemon.height);
+    weight.push(currentPokemon.weight);
   }
   renderPokemonCards();
+  loadPokemonStats(pokemonCollection[0].id);
+}
+
+async function loadPokemonStats(pokemonID) {
+  let url = `https://pokeapi.co/api/v2/pokemon/${pokemonID}`;
+  let response = await fetch(url);
+  let currentPokemon = await response.json();
+
+  baseExperience = currentPokemon.base_experience;
+  height = currentPokemon.height;
+  weight = currentPokemon.weight;
+
+  newChart(baseExperience, height, weight);
 }
 
 async function loadMorePokemons() {
   document.getElementById("pokedexCollectionContainer").style.display = "none";
   document.getElementById("loadingCircle").style.display = "block";
-  
+
   for (let i = pokemonsLoaded; i < pokemonsLoaded + 20; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
@@ -48,44 +67,41 @@ async function loadMorePokemons() {
     pokemonCollection.push(currentPokemon);
   }
   renderPokemonCards();
+  loadPokemonStats(pokemonCollection[pokemonsLoaded].id);
   document.getElementById("loadingCircle").style.display = "none";
   document.getElementById("pokedexCollectionContainer").style.display = "flex";
 }
 
 function renderPokemonCards() {
-  let pokedexCollectionContainer = document.getElementById("pokedexCollectionContainer");
+  let pokedexCollectionContainer = document.getElementById(
+    "pokedexCollectionContainer"
+  );
   pokedexCollectionContainer.innerHTML = "";
   for (let i = 0; i < pokemonCollection.length; i++) {
     let pokemon = pokemonCollection[i];
     let color = getPokemonColor(pokemon);
-    pokedexCollectionContainer.innerHTML += generateHtmlPokemonCards(i,pokemon,color);
+    pokedexCollectionContainer.innerHTML += generateHtmlPokemonCards(
+      i,
+      pokemon,
+      color
+    );
   }
-  pokemonsLoaded = document.getElementById("pokedexCollectionContainer").childElementCount;
+  pokemonsLoaded = document.getElementById(
+    "pokedexCollectionContainer"
+  ).childElementCount;
 }
 
-// function generateHtmlPokemonCards(i, pokemon, color) {
-//   if (pokemon.types.length > 0) {
-//     typesHtml = pokemon.types.map(type => `<div class="type rounded-pill" style="background-color: ${color};">${type.type.name}</div>`).join('');
-// }
-//   return /*html*/`
-//   <div class="pokedex-card"  onclick="openPokemonDetail(${i})">   
-//       <h1 class="h1-pokemon-name">
-//           ${pokemon["name"]}
-//       </h1>
-//           <img src = "${pokemon["sprites"]["other"]["home"]["front_shiny"]}">       
-//       <div class="type rounded-pill" style="background-color: ${color};"> ${pokemon["types"][0].type.name}</div>
-    
-//   </div>
-//   `;
-// }
-
 function generateHtmlPokemonCards(i, pokemon, color) {
-  // let typesHtml = '';
   if (pokemon.types.length > 0) {
-      typesHtml = pokemon.types.map(type => `<div class="type rounded-pill" style="background-color: ${color};">${type.type.name}</div>`).join('');
+    typesHtml = pokemon.types
+      .map(
+        (type) =>
+          `<div class="type rounded-pill" style="background-color: ${color};">${type.type.name}</div>`
+      )
+      .join("");
   }
 
-  return /*html*/`
+  return /*html*/ `
   <div class="pokedex-card"  onclick="openPokemonDetail(${i})">   
       <h1 class="h1-pokemon-name">
           ${pokemon.name}
@@ -96,22 +112,66 @@ function generateHtmlPokemonCards(i, pokemon, color) {
   `;
 }
 
-
 function getPokemonColor(pokemon) {
-  let type = pokemon['types'][0].type.name; 
-  let color = colors[type]; 
+  let type = pokemon["types"][0].type.name;
+  let color = colors[type];
   return color;
+}
+
+function newChart(i, baseExperience, height, weight, color) {
+  const ctx = document.getElementById("myChart");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["i", "B", "H", "W"],
+      datasets: [
+        {
+          axis: "y",
+          label: "Pokemon Stats",
+          data: [baseExperience, height, weight],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 205, 86)",
+            "rgb(54, 162, 235)",
+          ],
+          borderColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 205, 86)",
+            "rgb(54, 162, 235)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
 }
 
 function openPokemonDetail(i) {
   document.getElementById("backgroundForDetailard").classList.remove("d-none");
-  let containerForDetailCard = document.getElementById("backgroundForDetailard");
+  let containerForDetailCard = document.getElementById(
+    "backgroundForDetailard"
+  );
   containerForDetailCard.innerHTML = "";
   let pokemon = pokemonCollection[i];
   let firstType = pokemon.types[0].type.name;
   let color = colors[firstType];
-  containerForDetailCard.innerHTML = generateHtmlForDetailCard(i,pokemon,color);
-  }
+
+  containerForDetailCard.innerHTML = generateHtmlForDetailCard(
+    i,
+    pokemon,
+    color
+  );
+  newChart(i, pokemon.base_experience, pokemon.height, pokemon.weight, color);
+}
 
 function generateHtmlForDetailCard(i, pokemon, color) {
   return /*html*/ `
@@ -127,10 +187,17 @@ function generateHtmlForDetailCard(i, pokemon, color) {
             </h1>
             <p># ${pokemon["id"]}</p>
             <img class="detail-image" src = "${pokemon["sprites"]["other"]["official-artwork"]["front_shiny"]}">    
-            <div id="myChart">About</div>
+            <div>About</div>
             <div>Weight: ${pokemon["weight"]}</div>
             <div>Height: ${pokemon["height"]}</div>
-        </div>            
+          
+            <canvas class="my-chart" id="myChart"></canvas>
+        </div> 
+        <div>
+
+  
+</div>
+           
       </div>        
     `;
 }
@@ -145,27 +212,38 @@ function showNextPokemon(i) {
 }
 
 function showPreviousPokemon(i) {
-  let previousIndex = (i - 1 + pokemonCollection.length) % pokemonCollection.length;
+  let previousIndex =
+    (i - 1 + pokemonCollection.length) % pokemonCollection.length;
   openPokemonDetail(previousIndex);
 }
 
-function newSearch(){
-  document.getElementById('search_pokemon').value = '';
+function newSearch() {
+  document.getElementById("search_pokemon").value = "";
   renderPokemonCards();
 }
 
-function showPokemon(){
-  let search_pokemon = document.getElementById('search_pokemon').value.toLowerCase();
+function showPokemon() {
+  let search_pokemon = document
+    .getElementById("search_pokemon")
+    .value.toLowerCase();
   console.log(search_pokemon);
- let pokedexCollectionContainerSearch = document.getElementById('pokedexCollectionContainer');
-pokedexCollectionContainerSearch.innerHTML = '';
-for (let i = 0; i < pokemonCollection.length; i++) {
-  let onePokemon = pokemonCollection[i];
-  let pokemon = pokemonCollection[i].name; // Hier habe ich .name angehängt, damit es kein ganzes Objekt ist.
-  let pokemonName = pokemon.toLowerCase();
-  if(pokemonName.toLowerCase().includes(search_pokemon)){
-    let color = getPokemonColor(onePokemon);
-    getPokemonColor(onePokemon);
+  let pokedexCollectionContainerSearch = document.getElementById(
+    "pokedexCollectionContainer"
+  );
+  pokedexCollectionContainerSearch.innerHTML = "";
+  for (let i = 0; i < pokemonCollection.length; i++) {
+    let onePokemon = pokemonCollection[i];
+    let pokemon = pokemonCollection[i].name;
+    let pokemonName = pokemon.toLowerCase();
+    if (pokemonName.toLowerCase().includes(search_pokemon)) {
+      let color = getPokemonColor(onePokemon);
+      getPokemonColor(onePokemon);
 
-  pokedexCollectionContainerSearch.innerHTML += generateHtmlPokemonCards(i,onePokemon,color);
-}}}
+      pokedexCollectionContainerSearch.innerHTML += generateHtmlPokemonCards(
+        i,
+        onePokemon,
+        color
+      );
+    }
+  }
+}
