@@ -185,12 +185,10 @@ a {
 
 .searching-section {
     display: flex;
-
 }
 
 .types {
     display: flex;
-
 }
 
 #loadingCircle {
@@ -205,6 +203,7 @@ a {
 
 .my-chart {
     width: 240px;
+    height: 240px !important;
     font-size: 12px;
     margin: 20px;
     top: 50px;
