@@ -1,9 +1,6 @@
 let currentPokemon;
-let amountPokemon = 20;
+let amountPokemon = 10;
 let pokemonCollection = [];
-let baseExperience = [];
-let height = [];
-let weight = [];
 let pokemonsLoaded = 0;
 let colors = {
   normal: "rgb(164,172,175)",
@@ -31,41 +28,20 @@ async function init() {
 }
 
 async function loadPokemons() {
-  for (let i = 0; i < amountPokemon; i++) {
-    let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
-    let response = await fetch(url);
-    currentPokemon = await response.json();
-    pokemonCollection.push(currentPokemon);
-    baseExperience.push(currentPokemon.base_experience);
-    height.push(currentPokemon.height);
-    weight.push(currentPokemon.weight);
-  }
-  renderPokemonCards();
-  loadPokemonStats(pokemonCollection[0].id);
-}
-
-async function loadPokemonStats(pokemonID) {
-  let url = `https://pokeapi.co/api/v2/pokemon/${pokemonID}`;
-  let response = await fetch(url);
-  let currentPokemon = await response.json();
-  baseExperience = currentPokemon.base_experience;
-  height = currentPokemon.height;
-  weight = currentPokemon.weight;
-  newChart(baseExperience, height, weight);
-}
-
-async function loadMorePokemons() {
+  document.getElementById("buttonLoadPokemon").disabled=true;
   document.getElementById("pokedexCollectionContainer").style.display = "none";
   document.getElementById("loadingCircle").style.display = "block";
-  for (let i = pokemonsLoaded; i < pokemonsLoaded + 20; i++) {
+  for (let i = pokemonsLoaded; i < pokemonsLoaded + amountPokemon; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
     currentPokemon = await response.json();
     pokemonCollection.push(currentPokemon);
   }
   renderPokemonCards();
+
   document.getElementById("loadingCircle").style.display = "none";
   document.getElementById("pokedexCollectionContainer").style.display = "flex";
+  document.getElementById("buttonLoadPokemon").disabled=false;
 }
 
 function renderPokemonCards() {
@@ -96,12 +72,13 @@ function generateHtmlPokemonCards(i, pokemon, color) {
       )
       .join("");
   }
+
   return /*html*/ `
-  <div class="pokedex-card"  onclick="openPokemonDetail(${i})">   
+  <div class="pokedex-card"  onclick="openPokemonDetail(${i})">  
       <h1 class="h1-pokemon-name">
           ${pokemon.name}
       </h1>
-      <img src="${pokemon.sprites.other.home.front_shiny}">       
+      <img src="${pokemon.sprites.other.home.front_shiny}">      
       <div class="types">${typesHtml}</div>    
   </div>
   `;
@@ -113,12 +90,13 @@ function getPokemonColor(pokemon) {
   return color;
 }
 
-function newChart(i, baseExperience, height, weight, color) {
+function newChart(baseExperience, height, weight) {
   const ctx = document.getElementById("myChart");
+
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels: ["B", "H", "W"],
+      labels: ["i", "B", "H", "W"],
       datasets: [
         {
           axis: "y",
@@ -150,7 +128,7 @@ function newChart(i, baseExperience, height, weight, color) {
 }
 
 function openPokemonDetail(i) {
-  document.getElementById("backgroundForDetailard").classList.remove("d-none");
+    document.getElementById("backgroundForDetailard").classList.remove("d-none");
   let containerForDetailCard = document.getElementById(
     "backgroundForDetailard"
   );
@@ -158,17 +136,21 @@ function openPokemonDetail(i) {
   let pokemon = pokemonCollection[i];
   let firstType = pokemon.types[0].type.name;
   let color = colors[firstType];
-  containerForDetailCard.innerHTML = generateHtmlForDetailCard(i,pokemon,color);
-  newChart(i, pokemon.base_experience, pokemon.height, pokemon.weight, color);
+  containerForDetailCard.innerHTML = generateHtmlForDetailCard(
+    i,
+    pokemon,
+    color
+  );
+  newChart(pokemon.base_experience, pokemon.height, pokemon.weight);
 }
 
 function generateHtmlForDetailCard(i, pokemon, color) {
   return /*html*/ `
       <div class="pokedex-card-detail-wrapper" style="background-color: ${color};">
         <div class="detail-header-icon">                
-                <img src="./img/left.png" id="arrow-left-icon" onclick="showPreviousPokemon(${i})">    
-                <img src="./img/right.png" id="arrow-right-icon" onclick="showNextPokemon(${i})">             
-                <img src="./img/close.png" onclick="hidePokemonDetail()">                
+                <img class="header-icon" src="./img/left.png" id="arrow-left-icon" onclick="showPreviousPokemon(${i})">    
+                <img class="header-icon"src="./img/right.png" id="arrow-right-icon" onclick="showNextPokemon(${i})">            
+                <img class="header-icon"src="./img/close.png" onclick="hidePokemonDetail()">                
         </div>
         <div class="detail-pokemon-image">
             <h1 class="h1-pokemon-name">
@@ -179,8 +161,12 @@ function generateHtmlForDetailCard(i, pokemon, color) {
             <div>About</div>
             <div>Weight: ${pokemon["weight"]}</div>
             <div>Height: ${pokemon["height"]}</div>
+         
             <canvas class="my-chart" id="myChart"></canvas>
-        </div> 
+        </div>
+        <div>
+</div>
+           
       </div>        
     `;
 }
@@ -209,6 +195,7 @@ function showPokemon() {
   let search_pokemon = document
     .getElementById("search_pokemon")
     .value.toLowerCase();
+  console.log(search_pokemon);
   let pokedexCollectionContainerSearch = document.getElementById(
     "pokedexCollectionContainer"
   );
@@ -220,6 +207,7 @@ function showPokemon() {
     if (pokemonName.toLowerCase().includes(search_pokemon)) {
       let color = getPokemonColor(onePokemon);
       getPokemonColor(onePokemon);
+
       pokedexCollectionContainerSearch.innerHTML += generateHtmlPokemonCards(
         i,
         onePokemon,
