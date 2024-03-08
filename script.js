@@ -28,7 +28,7 @@ async function init() {
 }
 
 async function loadPokemons() {
-  document.getElementById("buttonLoadPokemon").disabled=true;
+  document.getElementById("buttonLoadPokemon").disabled = true;
   document.getElementById("pokedexCollectionContainer").style.display = "none";
   document.getElementById("loadingCircle").style.display = "block";
   for (let i = pokemonsLoaded; i < pokemonsLoaded + amountPokemon; i++) {
@@ -38,10 +38,9 @@ async function loadPokemons() {
     pokemonCollection.push(currentPokemon);
   }
   renderPokemonCards();
-
   document.getElementById("loadingCircle").style.display = "none";
   document.getElementById("pokedexCollectionContainer").style.display = "flex";
-  document.getElementById("buttonLoadPokemon").disabled=false;
+  document.getElementById("buttonLoadPokemon").disabled = false;
 }
 
 function renderPokemonCards() {
@@ -66,12 +65,8 @@ function renderPokemonCards() {
 function generateHtmlPokemonCards(i, pokemon, color) {
   if (pokemon.types.length > 0) {
     typesHtml = pokemon.types
-      .map(
-        (type) =>
-          `<div class="type rounded-pill" style="background-color: ${color};">${type.type.name}</div>`
-      )
-      .join("");
-  }
+      .map((type) =>`<div class="type rounded-pill" style="background-color: ${color};">${type.type.name}</div>`).join("");
+    }
 
   return /*html*/ `
   <div class="pokedex-card"  onclick="openPokemonDetail(${i})">  
@@ -92,7 +87,6 @@ function getPokemonColor(pokemon) {
 
 function newChart(baseExperience, height, weight) {
   const ctx = document.getElementById("myChart");
-
   new Chart(ctx, {
     type: "bar",
     data: {
@@ -128,7 +122,7 @@ function newChart(baseExperience, height, weight) {
 }
 
 function openPokemonDetail(i) {
-    document.getElementById("backgroundForDetailard").classList.remove("d-none");
+  document.getElementById("backgroundForDetailard").classList.remove("d-none");
   let containerForDetailCard = document.getElementById(
     "backgroundForDetailard"
   );
@@ -146,28 +140,25 @@ function openPokemonDetail(i) {
 
 function generateHtmlForDetailCard(i, pokemon, color) {
   return /*html*/ `
-      <div class="pokedex-card-detail-wrapper" style="background-color: ${color};">
-        <div class="detail-header-icon">                
-                <img class="header-icon" src="./img/left.png" id="arrow-left-icon" onclick="showPreviousPokemon(${i})">    
-                <img class="header-icon"src="./img/right.png" id="arrow-right-icon" onclick="showNextPokemon(${i})">            
-                <img class="header-icon"src="./img/close.png" onclick="hidePokemonDetail()">                
-        </div>
-        <div class="detail-pokemon-image">
+  <div class="detail">
+  <img class="header-icon" src="./img/left1.png" id="arrow-left-icon" onclick="showPreviousPokemon(${i})"> 
+    <div class="pokedex-card-detail-wrapper" style="background-color: ${color};">
+      <div class="detail-header-icon"></div>
+      <div class="detail-pokemon-image">
             <h1 class="h1-pokemon-name">
                 ${pokemon["name"]}
             </h1>
             <p># ${pokemon["id"]}</p>
             <img class="detail-image" src = "${pokemon["sprites"]["other"]["official-artwork"]["front_shiny"]}">    
-            <div>About</div>
-            <div>Weight: ${pokemon["weight"]}</div>
-            <div>Height: ${pokemon["height"]}</div>
-         
-            <canvas class="my-chart" id="myChart"></canvas>
-        </div>
-        <div>
-</div>
-           
-      </div>        
+        <div>About</div>
+        <div>Weight: ${pokemon["weight"]}</div>
+        <div>Height: ${pokemon["height"]}</div>
+        <canvas class="my-chart" id="myChart"></canvas>
+      </div>
+    </div>
+    <img class="header-icon"src="./img/right1.png" id="arrow-right-icon" onclick="showNextPokemon(${i})">            
+                <img class="header-icon"src="./img/close1.png" onclick="hidePokemonDetail()">  
+  </div>        
     `;
 }
 
