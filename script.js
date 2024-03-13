@@ -140,10 +140,12 @@ function openPokemonDetail(i) {
 
 function generateHtmlForDetailCard(i, pokemon, color) {
   return /*html*/ `
-  <div class="detail">
+<div class="detail">
   <img class="header-icon" src="./img/left1.png" id="arrow-left-icon" onclick="showPreviousPokemon(${i})"> 
-    <div class="pokedex-card-detail-wrapper" style="background-color: ${color};">
-      <div class="detail-header-icon"></div>
+  <div class="pokedex-card-detail-wrapper" style="background-color: ${color};">
+    <div class="detail-header-icon">
+      <img class="header-icon"src="./img/close1.png" onclick="hidePokemonDetail()">
+      </div>
       <div class="detail-pokemon-image">
             <h1 class="h1-pokemon-name">
                 ${pokemon["name"]}
@@ -157,7 +159,7 @@ function generateHtmlForDetailCard(i, pokemon, color) {
       </div>
     </div>
     <img class="header-icon"src="./img/right1.png" id="arrow-right-icon" onclick="showNextPokemon(${i})">            
-                <img class="header-icon"src="./img/close1.png" onclick="hidePokemonDetail()">  
+                  
   </div>        
     `;
 }
